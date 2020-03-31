@@ -83,11 +83,11 @@ public class Main {
 		frame = new JFrame();
 		frame.setTitle("stained_image");
 		frame.setSize(screenImage.getWidth(), screenImage.getHeight());
-	    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	    	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.getContentPane().add(label, BorderLayout.CENTER);
-	    frame.setLocationRelativeTo(null);
-	    frame.pack();
-	    frame.setVisible(true);
+	    	frame.setLocationRelativeTo(null);
+	    	frame.pack();
+	    	frame.setVisible(true);
 
 	}
 
