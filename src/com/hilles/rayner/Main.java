@@ -3,8 +3,6 @@ package com.hilles.rayner;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -22,17 +20,11 @@ public class Main {
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
 		//Code to run adb shell screen cap and get its bytestream.
-		String workingDir = "C:\\adb\\";
 		String[] command = {"adb", "shell", "screencap"};
 		Process screencap;
-		ProcessBuilder adbBuilder = new ProcessBuilder(command);
-		adbBuilder.directory(new File(workingDir));
-		
-		//File initialFile;
-		
+		ProcessBuilder adbBuilder = new ProcessBuilder(command);				
 		try {
 			screencap = adbBuilder.start();			
-			//initialFile = new File("C:\\adb\\dmp");
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -60,14 +52,9 @@ public class Main {
 				int red = imageStream.read();
 				int green = imageStream.read();
 				int blue = imageStream.read();
-				int alpha = imageStream.read();//not actually used.
-				/*if( red > 255 || red < 0 || blue > 255 || blue < 0 || green > 255 || green < 0 || alpha > 255 || alpha < 0) {
-				//System.out.println(x + " " + y + " " + red + " " + green + " " + blue + " " + alpha);
-				//if(red != 0  || blue != 0 || green != 0 || alpha != 255) {
-					System.out.println(x + " " + y + " " + red + " " + green + " " + blue + " " + alpha);
-					//return;
-					continue;
-				}*/
+				@SuppressWarnings("unused")
+				int alpha = imageStream.read();
+
 				Color pixelColor = new Color(red,green,blue);
 				screenImage.setRGB(x, y, pixelColor.getRGB());
 			}
@@ -83,11 +70,11 @@ public class Main {
 		frame = new JFrame();
 		frame.setTitle("stained_image");
 		frame.setSize(screenImage.getWidth(), screenImage.getHeight());
-	    	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.getContentPane().add(label, BorderLayout.CENTER);
-	    	frame.setLocationRelativeTo(null);
-	    	frame.pack();
-	    	frame.setVisible(true);
+	    frame.setLocationRelativeTo(null);
+	    frame.pack();
+	    frame.setVisible(true);
 
 	}
 
