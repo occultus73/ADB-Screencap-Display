@@ -4,10 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 public class Screencap {
-	private static String[] command = {"adb", "shell", "screencap"};
+	private static final String[] command = {"adb", "shell", "screencap"};
+	private static final String windowsPath = "%USERPROFILE%\\AppData\\Local\\Android\\sdk\\platform-tools\\";
+	private static final boolean isWindows = System.getProperty("os.name").contains("Windows");
 	private static Process screencap;
 	private static ProcessBuilder adbBuilder;
 	
@@ -15,6 +20,7 @@ public class Screencap {
 	
 	public static BufferedImage getScreenImage() throws Exception {
 		adbBuilder = new ProcessBuilder(command);
+		if(isWindows) adbBuilder.directory(new File(windowsPath));
 		screencap = adbBuilder.start();
 		InputStream imageStream = screencap.getInputStream();
 		
@@ -27,8 +33,8 @@ public class Screencap {
 		imageStream.read(heightBytes);
 		imageStream.read(pixelType);
 		imageStream.read(dontKnowWhatThisIs);
-		int phoneWidth = java.nio.ByteBuffer.wrap(widthBytes).order(java.nio.ByteOrder.LITTLE_ENDIAN).getInt();
-		int phoneHeight = java.nio.ByteBuffer.wrap(heightBytes).order(java.nio.ByteOrder.LITTLE_ENDIAN).getInt();
+		int phoneWidth = ByteBuffer.wrap(widthBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
+		int phoneHeight = ByteBuffer.wrap(heightBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
 		
 		//Read screencap's body: (nPixels = width * height) * Red Green Blue Alpha
 		BufferedImage screenImage = new BufferedImage(phoneWidth, phoneHeight, BufferedImage.TYPE_3BYTE_BGR);

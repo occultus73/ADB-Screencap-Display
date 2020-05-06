@@ -25,12 +25,12 @@ public class Main {
 			if(screenImage == null) return;
 		}
 		
-		//Paint buffer image to window (likely exceed screen size).
+		//Paint buffer image to window.
 		label = new JLabel();
 		label.setIcon(new ImageIcon(screenImage));
 		
 		frame = new JFrame();
-		frame.setTitle("stained_image");
+		frame.setTitle("Screen");
 		frame.setSize(screenImage.getWidth(), screenImage.getHeight());
 	    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.getContentPane().add(label, BorderLayout.CENTER);
