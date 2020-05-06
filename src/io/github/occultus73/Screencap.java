@@ -16,9 +16,9 @@ public class Screencap {
 	private static String[] command = {"adb", "shell", "screencap"};
 	private static Process screencap;
 	private static ProcessBuilder adbBuilder;
-	
+
 	private static final int computerScreenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 100;
-	
+
 	public static BufferedImage getScreenImage() throws Exception {
 		if(isWindows) command[0] = windowsPath + command[0];
 		adbBuilder = new ProcessBuilder(command);
@@ -56,8 +56,8 @@ public class Screencap {
 		final int scaledWidth = (int) ((double) phoneWidth * deviceHeightRatio);
 		BufferedImage scaledScreenImage = new BufferedImage(scaledWidth, computerScreenHeight, BufferedImage.TYPE_3BYTE_BGR);
 		Graphics2D g2d = scaledScreenImage.createGraphics();
-        g2d.drawImage(screenImage, 0, 0, scaledWidth, computerScreenHeight, null);
-        g2d.dispose();
+		g2d.drawImage(screenImage, 0, 0, scaledWidth, computerScreenHeight, null);
+		g2d.dispose();
 		
 		imageStream.close();
 		screencap.destroy();
