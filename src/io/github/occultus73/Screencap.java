@@ -18,7 +18,7 @@ public class Screencap {
 	private static ProcessBuilder adbBuilder;
 	
 	private static final int computerScreenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 100;
-	
+
 	public static BufferedImage getScreenImage() throws Exception {
 		if(isWindows) command[0] = windowsPath + command[0];
 		adbBuilder = new ProcessBuilder(command);
