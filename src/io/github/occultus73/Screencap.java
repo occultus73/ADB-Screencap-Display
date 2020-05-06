@@ -4,23 +4,24 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class Screencap {
-	private static final String[] command = {"adb", "shell", "screencap"};
+	//support for windows, which will not have ADB in its environment PATH by default because it's an OS for hacks.
 	private static final String windowsPath = System.getenv("USERPROFILE") + "\\AppData\\Local\\Android\\sdk\\platform-tools\\";
 	private static final boolean isWindows = System.getProperty("os.name").contains("Windows");
+	
+	private static String[] command = {"adb", "shell", "screencap"};
 	private static Process screencap;
 	private static ProcessBuilder adbBuilder;
 	
 	private static final int computerScreenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 100;
 	
 	public static BufferedImage getScreenImage() throws Exception {
+		if(isWindows) command[0] = windowsPath + command[0];
 		adbBuilder = new ProcessBuilder(command);
-		if(isWindows) adbBuilder.directory(new File(windowsPath));
 		screencap = adbBuilder.start();
 		InputStream imageStream = screencap.getInputStream();
 		
