@@ -11,7 +11,7 @@ import java.nio.ByteOrder;
 
 public class Screencap {
 	private static final String[] command = {"adb", "shell", "screencap"};
-	private static final String windowsPath = "%USERPROFILE%\\AppData\\Local\\Android\\sdk\\platform-tools\\";
+	private static final String windowsPath = System.getenv("USERPROFILE") + "\\AppData\\Local\\Android\\sdk\\platform-tools\\";
 	private static final boolean isWindows = System.getProperty("os.name").contains("Windows");
 	private static Process screencap;
 	private static ProcessBuilder adbBuilder;
