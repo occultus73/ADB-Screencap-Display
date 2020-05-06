@@ -1,10 +1,7 @@
 package io.github.occultus73;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
