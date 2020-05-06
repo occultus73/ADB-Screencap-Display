@@ -37,15 +37,14 @@ public class Screencap {
 		int phoneWidth = ByteBuffer.wrap(widthBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
 		int phoneHeight = ByteBuffer.wrap(heightBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
 		
-		//Read screencap's body: (nPixels = width * height) * Red Green Blue Alpha
+		//Read screencap's body: (nPixels = width * height) * Red Green Blue, then seek the Alpha=255 (protect against Windows \r insertions)
 		BufferedImage screenImage = new BufferedImage(phoneWidth, phoneHeight, BufferedImage.TYPE_3BYTE_BGR);
 		for(int y = 0; y < phoneHeight; y++) {
 			for(int x = 0; x < phoneWidth; x++) {
 				int red = imageStream.read();
 				int green = imageStream.read();
 				int blue = imageStream.read();
-				@SuppressWarnings("unused")
-				int alpha = imageStream.read();
+				while(imageStream.read() != 255);
 
 				Color pixelColor = new Color(red,green,blue);
 				screenImage.setRGB(x, y, pixelColor.getRGB());
