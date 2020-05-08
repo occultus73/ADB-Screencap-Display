@@ -47,21 +47,15 @@ public class UserInterface implements MouseListener{
 		//x,y coordinates of the window mouse-click
 		int x = e.getX();
 		int y = e.getY();
-	    
-	    Click.send(translateXPixel(x), translateYPixel(y));
+		
+		Click.send(translateXPixel(x), translateYPixel(y));
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent arg0) {}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent arg0) {}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -85,8 +79,8 @@ public class UserInterface implements MouseListener{
 		double phoneScreenWidth = screenUpdater[0].getPhoneWidth();
 		double screenWidthRatio = phoneScreenWidth / windowWidth;
 	    
-	    //and the product of the X coordinate with that ratio.
-	    return (int)(x * screenWidthRatio);
+		//and the product of the X coordinate with that ratio.
+		return (int)(x * screenWidthRatio);
 	}
 	
 	private int translateYPixel(int y) {
