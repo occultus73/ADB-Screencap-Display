@@ -10,7 +10,7 @@ import javax.swing.WindowConstants;
 
 
 public class UserInterface implements MouseListener{
-	private static final int NUMBER_OF_SCREENREADER_THREADS = Runtime.getRuntime().availableProcessors();
+	private static final int NUMBER_OF_SCREENREADER_THREADS = 1; //Runtime.getRuntime().availableProcessors();
 	private static ScreenUpdater[] screenUpdater = new ScreenUpdater[NUMBER_OF_SCREENREADER_THREADS];
 	private static Thread[] screenUpdaterThread = new Thread[NUMBER_OF_SCREENREADER_THREADS];
 	
