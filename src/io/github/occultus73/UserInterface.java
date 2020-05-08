@@ -35,18 +35,18 @@ public class UserInterface implements MouseListener{
 		}
 		
 		frame.setTitle("Phone Screen");
-	    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.getContentPane().add(label, BorderLayout.CENTER);
-	    frame.setLocationRelativeTo(null);
-	    frame.pack();
-	    frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
+		frame.pack();
+		frame.setVisible(true);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		//x,y coordinates of the window mouse-click
 		int x = e.getX();
-	    int y = e.getY();
+		int y = e.getY();
 	    
 	    Click.send(translateXPixel(x), translateYPixel(y));
 	}
@@ -82,8 +82,8 @@ public class UserInterface implements MouseListener{
 	private int translateXPixel(int x) {
 		//calculate ratio to translate X pixel...
 		double windowWidth = label.getWidth();
-	    double phoneScreenWidth = screenUpdater[0].getPhoneWidth();
-	    double screenWidthRatio = phoneScreenWidth / windowWidth;
+		double phoneScreenWidth = screenUpdater[0].getPhoneWidth();
+		double screenWidthRatio = phoneScreenWidth / windowWidth;
 	    
 	    //and the product of the X coordinate with that ratio.
 	    return (int)(x * screenWidthRatio);
