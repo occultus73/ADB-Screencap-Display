@@ -15,6 +15,7 @@ public class ScreenUpdater extends ADBCommand implements Runnable {
 	private static final String[] SHELLCOMMAND = {"screencap"};
 	private static final int COMPUTERSCREENHEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 100;
 	
+	//might in theory be used to terminate the infinite update loop
 	static volatile boolean exit = false;
 	
 	private JLabel label;
@@ -22,6 +23,9 @@ public class ScreenUpdater extends ADBCommand implements Runnable {
 	
 	private Process screencap;
 	private InputStream imageStream;
+	
+	private int phoneWidth = 0;
+	private int phoneHeight = 0;
 
 	public static ScreenUpdater getInstance(JLabel label, JFrame frame) {
 		return new ScreenUpdater(label, frame);
@@ -34,19 +38,29 @@ public class ScreenUpdater extends ADBCommand implements Runnable {
 		this.frame = frame;
 	}
 
+	//Keep updating phone screen inside infinite loop
 	@Override
 	public void run() {
 		while(!exit) {
 			try {
+				int initialWidth = phoneWidth;
+				
+				//update window with new image.
 				BufferedImage phoneScreen = getPhoneScreen();
 				label.setIcon(new ImageIcon(phoneScreen));
-				frame.setSize(phoneScreen.getWidth(), phoneScreen.getHeight() + 37);
+				
+				//re-pack the window if phone screen image has changed size.
+				if(phoneWidth != initialWidth) {
+					frame.pack();
+					frame.setVisible(true);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 	
+	//Execute the Screencap command to get our image...
 	private BufferedImage getPhoneScreen() throws Exception {
 		screencap = ADBCOMMAND.start();
 		imageStream = screencap.getInputStream();
@@ -60,8 +74,8 @@ public class ScreenUpdater extends ADBCommand implements Runnable {
 		imageStream.read(heightBytes);
 		imageStream.read(pixelType);
 		imageStream.read(dontKnowWhatThisIs);
-		int phoneWidth = ByteBuffer.wrap(widthBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
-		int phoneHeight = ByteBuffer.wrap(heightBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
+		phoneWidth = ByteBuffer.wrap(widthBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
+		phoneHeight = ByteBuffer.wrap(heightBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
 		
 		//Read screencap's body: (nPixels = width * height) of Red Green Blue values, then seek the Alpha=255 (protect against Windows \r insertions)
 		BufferedImage screenImage = new BufferedImage(phoneWidth, phoneHeight, BufferedImage.TYPE_3BYTE_BGR);
@@ -88,5 +102,14 @@ public class ScreenUpdater extends ADBCommand implements Runnable {
 		imageStream.close();
 		screencap.destroy();
 		return scaledScreenImage;
+	}
+	
+	//input tap ADB command needs to know phone width & height to translate computer screen clicks back into phone screen taps.
+	public int getPhoneWidth() {
+		return phoneWidth;
+	}
+
+	public int getPhoneHeight() {
+		return phoneHeight;
 	}
 }
