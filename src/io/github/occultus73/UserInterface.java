@@ -39,7 +39,7 @@ public class UserInterface implements MouseListener{
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.getContentPane().add(label, BorderLayout.CENTER);
 		frame.setLocationRelativeTo(null);
-		frame.setMinimumSize(new Dimension(500, 1000));
+		frame.setMinimumSize(new Dimension(250, 500));
 		frame.pack();
 		frame.setVisible(true);
 	}
