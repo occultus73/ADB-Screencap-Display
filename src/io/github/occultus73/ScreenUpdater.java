@@ -47,7 +47,7 @@ public class ScreenUpdater extends ADBCommand implements Runnable {
 				
 				//update window with new image.
 				BufferedImage phoneScreen = getPhoneScreen();
-				label.setIcon(new ImageIcon(phoneScreen));
+				if(phoneScreen != null) label.setIcon(new ImageIcon(phoneScreen));
 				
 				//re-pack the window if phone screen image has changed size.
 				if(phoneWidth != initialWidth) {
@@ -76,6 +76,9 @@ public class ScreenUpdater extends ADBCommand implements Runnable {
 		imageStream.read(dontKnowWhatThisIs);
 		phoneWidth = ByteBuffer.wrap(widthBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
 		phoneHeight = ByteBuffer.wrap(heightBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
+		
+		//ADB will sometime spit out an empty image, notably on Windows on the first run.
+		if(phoneWidth == 0 || phoneHeight == 0) return null;
 		
 		//Read screencap's body: (nPixels = width * height) of Red Green Blue values, then seek the Alpha=255 (protect against Windows \r insertions)
 		BufferedImage screenImage = new BufferedImage(phoneWidth, phoneHeight, BufferedImage.TYPE_3BYTE_BGR);

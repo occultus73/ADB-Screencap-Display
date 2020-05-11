@@ -1,6 +1,7 @@
 package io.github.occultus73;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -38,6 +39,7 @@ public class UserInterface implements MouseListener{
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.getContentPane().add(label, BorderLayout.CENTER);
 		frame.setLocationRelativeTo(null);
+		frame.setMinimumSize(new Dimension(500, 1000));
 		frame.pack();
 		frame.setVisible(true);
 	}
